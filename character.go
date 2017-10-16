@@ -3,28 +3,22 @@ package main
 import "math/rand"
 
 type character struct {
-	Name  string
-	Class string
-	Race  string
-	Str   int
-	Dex   int
-	Con   int
-	Int   int
-	Wis   int
-	Cha   int
+	attributes
+	Name       string
+	Level      int
+	Class      string
+	Race       string
+	Background string
 }
 
 func newCharacter(name string) character {
 	var c character
 	c.Name = name
+	c.Level = 1
 	c.Class = randomClass()
 	c.Race = randomRace()
-	c.Str = randomStat()
-	c.Dex = randomStat()
-	c.Con = randomStat()
-	c.Int = randomStat()
-	c.Wis = randomStat()
-	c.Cha = randomStat()
+	c.Background = randomBackground()
+	c.attributes = newAttributes()
 
 	return c
 }
@@ -35,10 +29,29 @@ func die(max int) int {
 
 func randomRace() string {
 	races := []string{
-		"Human",
+		"Human (Calshite)",
+		"Human (Chondathan)",
+		"Human (Damaran)",
+		"Human (Illuskan)",
+		"Human (Mulan)",
+		"Human (Rashimi)",
+		"Human (Shou)",
+		"Human (Tethyrian)",
+		"Human (Turami)",
 		"Dwarf",
-		"Elf",
-		"Half Orc",
+		"Mountain Dwarf",
+		"Duergar",
+		"High Elf",
+		"Wood Elf",
+		"Dark Elf",
+		"Half-Orc",
+		"Halfling",
+		"Dragonborn",
+		"Gnome",
+		"Forest Gnome",
+		"Rock Gnome",
+		"Half-Elf",
+		"Tiefling",
 	}
 
 	chosenRace := rand.Int() % len(races)
@@ -52,6 +65,12 @@ func randomClass() string {
 		"Barbarian",
 		"Druid",
 		"Wizard",
+		"Bard",
+		"Cleric",
+		"Monk",
+		"Ranger",
+		"Rogue",
+		"Warlock",
 	}
 
 	chosenClass := rand.Int() % len(classes)
@@ -59,6 +78,23 @@ func randomClass() string {
 	return classes[chosenClass]
 }
 
-func randomStat() int {
-	return die(6) + die(6) + die(6)
+func randomBackground() string {
+	backgrounds := []string{
+		"Acolyte",
+		"Charlatan",
+		"Criminal",
+		"Entertainer",
+		"Folk Hero",
+		"Guild Artisan",
+		"Hermit",
+		"Noble",
+		"Outlander",
+		"Sage",
+		"Sailor",
+		"Soldier",
+		"Urchin",
+	}
+	chosenBackground := rand.Int() % len(backgrounds)
+
+	return backgrounds[chosenBackground]
 }
