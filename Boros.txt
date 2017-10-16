@@ -1,0 +1,9 @@
+Name: Boros
+Class: Druid
+Race: Elf
+Str: 11
+Dex: 11
+Con: 12
+Int: 6
+Wis: 8
+Cha: 12

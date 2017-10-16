@@ -4,28 +4,37 @@ import (
 	"flag"
 	"fmt"
 	"math/rand"
+	"os"
 	"time"
 )
-
-func die(max int) int {
-	return rand.Int()%max + 1
-}
 
 func main() {
 	seed := time.Now().UnixNano()
 	rand.Seed(seed)
+	name := flag.String("name", "Boros", "name of the character")
 
-	num := flag.Int("num", 1, "number of dice")
-	max := flag.Int("max", 20, "max value of dice")
+	flag.Parse()
 
-	if *num <= 0 {
-		fmt.Println("'num' flag must have a number greater than zero")
-	}
-	if *max <= 0 {
-		fmt.Println("'max' flag must have a number greater than zero")
-	}
+	char := newCharacter(*name)
 
-	for i := 0; i < *num; i++ {
-		fmt.Printf("%v\n", die(*max))
+	fileName := fmt.Sprintf("%s.txt", *name)
+	f, err := os.Create(fileName)
+	if err != nil {
+		fmt.Printf("%v\n", err)
+		os.Exit(1)
 	}
+	defer f.Close()
+	prettyPrintFile(char, f)
+}
+
+func prettyPrintFile(char character, w *os.File) {
+	w.WriteString(fmt.Sprintf("Name: %v\n", char.Name))
+	w.WriteString(fmt.Sprintf("Class: %v\n", char.Class))
+	w.WriteString(fmt.Sprintf("Race: %v\n", char.Race))
+	w.WriteString(fmt.Sprintf("Str: %v\n", char.Str))
+	w.WriteString(fmt.Sprintf("Dex: %v\n", char.Dex))
+	w.WriteString(fmt.Sprintf("Con: %v\n", char.Con))
+	w.WriteString(fmt.Sprintf("Int: %v\n", char.Int))
+	w.WriteString(fmt.Sprintf("Wis: %v\n", char.Wis))
+	w.WriteString(fmt.Sprintf("Cha: %v\n", char.Cha))
 }
